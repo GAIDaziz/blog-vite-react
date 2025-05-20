@@ -3,6 +3,14 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+
+// Import des styles
+import './main.scss';
+
+
+// Import du JavaScript de Bootstrap
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
 // Sélection de l'élément racine
 const rootElement = document.getElementById("root");
 // Création de la racine React
