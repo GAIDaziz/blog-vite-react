@@ -6,25 +6,25 @@ import { auth, db } from "../firebase-config";
 function CreatePost({ isAuth }) {
   const [title, setTitle] = useState("");
   const [postText, setPostText] = useState("");
-  
+
   const navigate = useNavigate();
-  const postCollectionRef = collection (db, "posts")
+  const postCollectionRef = collection(db, "posts");
 
   const createPost = async () => {
-    // logique existante pour créer un post
-    // ...
-    await addDoc(postCollectionRef, {title, postText, authothor: {name: auth.currentUser.displayName ,id: auth.currentUser.uid}});
-    
-    
-    // Redirection après création
-    navigate("/");
+    await addDoc(postCollectionRef, {
+      title,
+      postText,
+      author: { name: auth.currentUser.displayName, id: auth.currentUser.uid },
+    });
 
-    useEffect(()=> { 
-      if (!isAuth) {
-        navigate("/login");
-      }
-    })
+    navigate("/");
   };
+
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, [isAuth, navigate]);
 
   return (
     <div className="container mt-5">
@@ -35,8 +35,8 @@ function CreatePost({ isAuth }) {
               <h3 className="mb-0">Create a New Post</h3>
             </div>
             <div className="card-body">
-              <form onSubmit={createPost}>
-                <div className="create-title">
+              <form onSubmit={(e) => e.preventDefault()}>
+                <div className="create-title mb-3">
                   <label htmlFor="title" className="form-label">Title</label>
                   <input 
                     type="text" 
@@ -49,7 +49,7 @@ function CreatePost({ isAuth }) {
                   />
                 </div>
                 
-                <div className="create-content">
+                <div className="create-content mb-3">
                   <label htmlFor="postContent" className="form-label">Content</label>
                   <textarea 
                     className="form-control" 
@@ -61,21 +61,9 @@ function CreatePost({ isAuth }) {
                     required
                   ></textarea>
                 </div>
-                
 
-               
-                
-                {/* Option pour télécharger une image de couverture */}
-                <div className="mb-3">
-                  <label htmlFor="coverImage" className="form-label">Cover Image (optional)</label>
-                  <input 
-                    type="file" 
-                    className="form-control" 
-                    id="coverImage" 
-                    accept="image/*"
-                  />
-                </div>
-                
+                {/* Champ image supprimé ici */}
+
                 <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                   <button 
                     type="button" 
@@ -84,11 +72,13 @@ function CreatePost({ isAuth }) {
                   >
                     Cancel
                   </button>
-                  <button  type="button"
-                   className="btn btn-primary" 
-                   onClick={createPost}
-                   >
-                    Publish Post</button>
+                  <button  
+                    type="button"
+                    className="btn btn-primary" 
+                    onClick={createPost}
+                  >
+                    Publish Post
+                  </button>
                 </div>
               </form>
             </div>
